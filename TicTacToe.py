@@ -21,7 +21,7 @@ def input_position(x, p): #function that places the 'X' or 'O' at the place the 
                 z = i - 1
                 board[z] = "O"
 
-def CheckWinner(board):
+def CheckWinner(board): #functions that checks the different ways the user can win
     #checks for horizontal wins
     if board[0] == board[1] == board[2] and board[0] != "-":
         Winner = board[0]
@@ -49,7 +49,10 @@ def CheckWinner(board):
     elif board[2] == board[4] == board[6] and board[2] != "-":
         Winner = board[2]
         return Winner
-
+    #checks if it a tie
+    elif "-" not in board:
+        Winner = "Tie"
+        return Winner
 
 
 def TicTacToe():
@@ -70,17 +73,17 @@ def TicTacToe():
         if CurrentPlayer == "X":
             print("X |Player's turn")
             Position = int(input("Enter a number between 1 - 9: ")) #input needs to be a int to compare 
-            if Position in Taken_Positions:
+            if Position in Taken_Positions: #checks if the number entered isn't already taken 
                 print("This Position is already taken")
             else:
-                if Position >= 1 and Position <= 9:
-                    input_position(Position, CurrentPlayer)
-                    Taken_Positions.append(Position)
-                    display_board(board)
-                    CurrentPlayer = "O"
+                if Position >= 1 and Position <= 9: #checks that the number is between the limits 
+                    input_position(Position, CurrentPlayer) #calling the input position function
+                    Taken_Positions.append(Position) #appending the current position used to the taken position list 
+                    display_board(board) #display the updated board
+                    CurrentPlayer = "O" #switch player
                 else:
                     print("Invalid Input")
-        else:
+        else: #does the same thing as above 
             print("O |Player's turn")
             Position = int(input("Enter a number between 1 - 9: ")) #input needs to be a int to compare 
             if Position in Taken_Positions:
@@ -95,17 +98,28 @@ def TicTacToe():
                     print("Invalid Input")
         print("\n")
             
-        Winner = CheckWinner(board)
-        print(Winner)
-        if Winner == "X":
+        Winner = CheckWinner(board)#calls the Check Winner Function to see who wins
+        if Winner == "X": #checks if there is a winner to change Gameover to True
             Gameover = True
         elif Winner == "O":
             Gameover = True
+        elif Winner == "Tie":
+            Gameover = True
+
+
+        
     else:
-        print("Winner is:", Winner)
+        if Winner == "Tie":
+            print("Its a Tie")
+        else: #else that prints the winner
+            print("Winner is:", Winner)
 
-
-
-TicTacToe()
+#while for the users to continue playing if they wish
+play = input("Would you like to Play Tic Tac Toe: Enter 'Y' or 'N' ").upper()
+while play == "Y":
+    TicTacToe()
+    play = input("Would you like to play again: Enter 'Y' or 'N' ").upper()
+else:
+    print("I guess your boring")
 
 
