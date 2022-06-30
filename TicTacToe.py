@@ -46,8 +46,8 @@ def CheckWinner(board):
     elif board[0] == board[4] == board[8] and board[0] != "-":
         Winner = board[0]
         return Winner
-    elif board[2] == board[4] == board[6] and board[0] != "-":
-        Winner = board[0]
+    elif board[2] == board[4] == board[6] and board[2] != "-":
+        Winner = board[2]
         return Winner
 
 
@@ -93,8 +93,10 @@ def TicTacToe():
                     CurrentPlayer = "X"
                 else:
                     print("Invalid Input")
+        print("\n")
             
         Winner = CheckWinner(board)
+        print(Winner)
         if Winner == "X":
             Gameover = True
         elif Winner == "O":
