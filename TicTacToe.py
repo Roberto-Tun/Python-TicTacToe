@@ -1,7 +1,5 @@
-Gameover = False
 board = ["-","-","-","-","-","-","-","-","-"] #list to input the x and o
 Taken_Positions = []
-CurrentPlayer = "X"
 
 def display_board(board): #function that displays the board 
     print(board[0] + " | " + board[1] + " | " + board[2])
@@ -23,27 +21,34 @@ def input_position(x, p): #function that places the 'X' or 'O' at the place the 
                 z = i - 1
                 board[z] = "O"
 
-def CheckWinner():
-    if board[0] == "X" and board[1] == "X" and board[2] == "X":
-        Gameover = True
-        return Gameover
-    elif board[3] =="X" and board[4] == "X" and board[5] == "X":
-        Gameover = True
-        return Gameover
-    elif board[6] =="X" and board[7] == "X" and board[8] == "X":
-        Gameover = True
-        return Gameover
-    elif board[0] =="X" and board[3] == "X" and board[6] == "X":
-        Gameover = True
-        return Gameover
-    elif board[1] =="X" and board[4] == "X" and board[7] == "X":
-        Gameover = True
-        return Gameover
-    elif board[2] =="X" and board[5] == "X" and board[8] == "X":
-        Gameover = True
-        return Gameover
-
-
+def CheckWinner(board):
+    #checks for horizontal wins
+    if board[0] == board[1] == board[2] and board[0] != "-":
+        Winner = board[0]
+        return Winner
+    elif board[3] == board[4] == board[5] and board[3] != "-":
+        Winner = board[3]
+        return Winner
+    elif board[6] == board[7] == board[8] and board[6] != "-":
+        Winner = board[6]
+        return Winner
+    #checks for Vertical wins
+    elif board[0] == board[3] == board[6] and board[0] != "-":
+        Winner = board[0]
+        return Winner
+    elif board[1] == board[4] == board[7] and board[1] != "-":
+        Winner = board[1]
+        return Winner
+    elif board[2] == board[5] == board[8] and board[2] != "-":
+        Winner = board[2]
+        return Winner
+    #checks for the X winning style
+    elif board[0] == board[4] == board[8] and board[0] != "-":
+        Winner = board[0]
+        return Winner
+    elif board[2] == board[4] == board[6] and board[0] != "-":
+        Winner = board[0]
+        return Winner
 
 
 
@@ -59,7 +64,7 @@ def TicTacToe():
     print("---------")
     print("7 | 8 | 9")
     print("\n")
-
+    Gameover = False
     CurrentPlayer = "X"
     while Gameover == False:
         if CurrentPlayer == "X":
@@ -68,10 +73,13 @@ def TicTacToe():
             if Position in Taken_Positions:
                 print("This Position is already taken")
             else:
-                input_position(Position, CurrentPlayer)
-                Taken_Positions.append(Position)
-                display_board(board)
-                CurrentPlayer = "O"
+                if Position >= 1 and Position <= 9:
+                    input_position(Position, CurrentPlayer)
+                    Taken_Positions.append(Position)
+                    display_board(board)
+                    CurrentPlayer = "O"
+                else:
+                    print("Invalid Input")
         else:
             print("O |Player's turn")
             Position = int(input("Enter a number between 1 - 9: ")) #input needs to be a int to compare 
@@ -83,17 +91,19 @@ def TicTacToe():
                     Taken_Positions.append(Position)
                     display_board(board)
                     CurrentPlayer = "X"
-
+                else:
+                    print("Invalid Input")
             
+        Winner = CheckWinner(board)
+        if Winner == "X":
+            Gameover = True
+        elif Winner == "O":
+            Gameover = True
+    else:
+        print("Winner is:", Winner)
 
 
 
 TicTacToe()
 
 
-
-'''Xuser = int(input("Enter a number between 1 - 9: "))
-for i in range(1, len(board)+1):
-    if Xuser == i:
-        x = i - 1
-        board[x] = "x"'''
